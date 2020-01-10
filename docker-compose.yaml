@@ -1,0 +1,26 @@
+version: "3"
+services:
+  app:
+    build: .
+    depends_on:
+      - mysql
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/src/app
+    links:
+      - mysql
+  mysql:
+    image: "mysql:5.7.28"
+    ports:
+      - "13306:3306"
+    environment:
+      - MYSQL_DATABASE=sandbox
+      - MYSQL_ROOT_PASSWORD=123
+      - PMA_HOST=mysql
+  phpMyAdmin:
+    image: "phpmyadmin/phpmyadmin:4.9.1"
+    ports:
+      - "80:80"
+    environment:
+      - PMA_HOST=mysql
